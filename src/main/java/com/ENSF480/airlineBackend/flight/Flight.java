@@ -10,6 +10,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import com.ENSF480.airlineBackend.aircraft.Aircraft;
+import com.ENSF480.airlineBackend.seat.Seat;
 
 
 @Entity
@@ -36,7 +38,7 @@ public class Flight {
     private int basePrice;
     private boolean isAvailable;
 
-    public Flight(int id, Aircraft aircraft, String name, String source, String destination, LocalDateTime departureTime, Duration duration, ArrayList<Seat> seats, int basePrice, boolean isAvailable) {
+    public Flight(Long id, Aircraft aircraft, String name, String source, String destination, LocalDateTime departureTime, Duration duration, ArrayList<Seat> seats, int basePrice, boolean isAvailable) {
         this.id = id;
         this.aircraft = aircraft;
         this.name = name;
