@@ -1,7 +1,6 @@
 package com.ENSF480.airlineBackend.flight;
 
 import java.time.LocalDateTime;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,12 +35,12 @@ public class Flight {
     )
     private Long id;
     @ManyToOne
-    @JoinColumn(name = "aircraft_id", referencedColumnName = "id") // assuming 'id' is the primary key in Aircraft
+    @JoinColumn(name = "aircraft_id", referencedColumnName = "id")
     private Aircraft aircraft;
     private String source;
     private String destination;
     private LocalDateTime departureTime;
-    private Duration duration; 
+    private int durationInMinutes;
 
     @OneToMany(
         mappedBy = "flight",
@@ -53,25 +52,25 @@ public class Flight {
     private List<Seat> seats; 
     private int basePrice;
 
-    public Flight(Long id, Aircraft aircraft, String source, String destination, LocalDateTime departureTime, Duration duration, int basePrice) {
+    public Flight(Long id, Aircraft aircraft, String source, String destination, LocalDateTime departureTime, int durationInMinutes, int basePrice) {
         this.id = id;
         this.aircraft = aircraft;
         this.source = source;
         this.destination = destination;
         this.departureTime = departureTime;
-        this.duration = duration;
+        this.durationInMinutes = durationInMinutes;
         this.basePrice = basePrice;
         this.seats = new ArrayList<Seat>();
         createSeatsFromAircraft(aircraft);
 
     }
 
-    public Flight(Aircraft aircraft, String source, String destination, LocalDateTime departureTime, Duration duration, int basePrice) {
+    public Flight(Aircraft aircraft, String source, String destination, LocalDateTime departureTime, int durationInMinutes, int basePrice) {
         this.aircraft = aircraft;
         this.source = source;
         this.destination = destination;
         this.departureTime = departureTime;
-        this.duration = duration;
+        this.durationInMinutes = durationInMinutes;
         this.basePrice = basePrice;
         this.seats = new ArrayList<Seat>();
         createSeatsFromAircraft(aircraft);
@@ -101,8 +100,8 @@ public class Flight {
         return this.departureTime;
     }
 
-    public Duration getDuration() {
-        return this.duration;
+    public int getDurationInMinutes() {
+        return this.durationInMinutes;
     }
 
     public List<Seat> getSeats() {
@@ -135,8 +134,8 @@ public class Flight {
         this.departureTime = departureTime;
     }
 
-    public void setDuration(Duration duration) {
-        this.duration = duration;
+    public void setDurationInMinutes(int durationInMinutes) {
+        this.durationInMinutes = durationInMinutes;
     }
 
     public void setSeats(List<Seat> seats) {
@@ -174,8 +173,8 @@ public class Flight {
         return this;
     }
 
-    public Flight duration(Duration duration) {
-        this.duration = duration;
+    public Flight durationInMinutes(int durationInMinutes) {
+        this.durationInMinutes = durationInMinutes;
         return this;
     }
 
@@ -197,7 +196,7 @@ public class Flight {
             ", source='" + getSource() + "'" +
             ", destination='" + getDestination() + "'" +
             ", departureTime='" + getDepartureTime() + "'" +
-            ", duration='" + getDuration() + "'" +
+            ", durationInMinutes='" + getDurationInMinutes() + "'" +
             ", seats='" + getSeats() + "'" +
             ", basePrice='" + getBasePrice() + "'" +
             "}";

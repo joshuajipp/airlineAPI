@@ -7,7 +7,6 @@ import com.ENSF480.airlineBackend.aircraft.AircraftService;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.time.Duration;
 
 
 @Service
@@ -27,15 +26,19 @@ public class FlightService {
         return flightRepository.findAll();
     }
 
+    public Flight getFlight(Long flightId) {
+        return flightRepository.findById(flightId).orElseThrow(() -> new RuntimeException("Flight not found"));
+    }
+
     public void createFlight(FlightDetails flightDetails) {
         createFlight(flightDetails.getAircraftId(), flightDetails.getSource(),
         flightDetails.getDestination(), flightDetails.getDepartureTime(),
-        flightDetails.getDuration(), flightDetails.getBasePrice());
+        flightDetails.getDurationInMinutes(), flightDetails.getBasePrice());
         
         
     }
 
-    public void createFlight(Long aircraftId, String source, String destination, LocalDateTime departureTime, Duration duration, int basePrice) {
+    public void createFlight(Long aircraftId, String source, String destination, LocalDateTime departureTime, int duration, int basePrice) {
         // Fetch the Aircraft by ID
         Aircraft aircraft = aircraftService.findById(aircraftId).orElseThrow(() -> new RuntimeException("Aircraft not found"));
         

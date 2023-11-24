@@ -1,6 +1,5 @@
 package com.ENSF480.airlineBackend.flight;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class FlightDetails {
@@ -8,21 +7,19 @@ public class FlightDetails {
     private String source;
     private String destination;
     private LocalDateTime departureTime;
-    private Duration duration;
+    private int durationInMinutes;
     private int basePrice;
 
     public FlightDetails() {
     }
 
-    public FlightDetails(Long aircraftId, String source, String destination, String departureTime, Long duration, int basePrice) {
+    public FlightDetails(Long aircraftId, String source, String destination, String departureTime, int durationInMinutes, int basePrice) {
         this.aircraftId = aircraftId;
         this.source = source;
         this.destination = destination;
         this.basePrice = basePrice;
-
-        // Parse the departureTime and duration strings into LocalDateTime and Duration objects
+        this.durationInMinutes = durationInMinutes;
         this.departureTime = LocalDateTime.parse(departureTime);
-        this.duration = Duration.ofHours(duration);
     }
 
     public Long getAircraftId() {
@@ -45,9 +42,8 @@ public class FlightDetails {
         return this.departureTime;
     }
 
-    public Duration getDuration() {
-        return this.duration;
-    
+    public int getDurationInMinutes() {
+        return this.durationInMinutes;
     }
 
     public int getBasePrice() {
@@ -70,8 +66,8 @@ public class FlightDetails {
         this.departureTime = departureTime;
     }
 
-    public void setDuration(Duration duration) {
-        this.duration = duration;
+    public void setDurationInMinutes(int durationInMinutes) {
+        this.durationInMinutes = durationInMinutes;
     }
 
     @Override
@@ -81,7 +77,7 @@ public class FlightDetails {
             ", source='" + getSource() + "'" +
             ", destination='" + getDestination() + "'" +
             ", departureTime='" + getDepartureTime() + "'" +
-            ", duration='" + getDuration() + "'" +
+            ", duration='" + getDurationInMinutes() + "'" +
             "}";
     }
 }
