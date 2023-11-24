@@ -3,6 +3,7 @@ package com.ENSF480.airlineBackend.flight;
 import java.time.LocalDateTime;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -17,7 +18,8 @@ import jakarta.persistence.Table;
 import com.ENSF480.airlineBackend.aircraft.Aircraft;
 import com.ENSF480.airlineBackend.seat.Seat;
 import jakarta.persistence.CascadeType;
-
+import com.ENSF480.airlineBackend.seat.SeatType;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table
@@ -36,7 +38,6 @@ public class Flight {
     @ManyToOne
     @JoinColumn(name = "aircraft_id", referencedColumnName = "id") // assuming 'id' is the primary key in Aircraft
     private Aircraft aircraft;
-    private String name;
     private String source;
     private String destination;
     private LocalDateTime departureTime;
@@ -48,33 +49,32 @@ public class Flight {
         orphanRemoval = true,
         fetch = FetchType.LAZY
     )
-    private ArrayList<Seat> seats; 
+    @JsonManagedReference
+    private List<Seat> seats; 
     private int basePrice;
-    private boolean isAvailable;
 
-    public Flight(Long id, Aircraft aircraft, String name, String source, String destination, LocalDateTime departureTime, Duration duration, ArrayList<Seat> seats, int basePrice, boolean isAvailable) {
+    public Flight(Long id, Aircraft aircraft, String source, String destination, LocalDateTime departureTime, Duration duration, int basePrice) {
         this.id = id;
         this.aircraft = aircraft;
-        this.name = name;
         this.source = source;
         this.destination = destination;
         this.departureTime = departureTime;
         this.duration = duration;
-        this.seats = seats;
         this.basePrice = basePrice;
-        this.isAvailable = isAvailable;
+        this.seats = new ArrayList<Seat>();
+        createSeatsFromAircraft(aircraft);
+
     }
 
-    public Flight(Aircraft aircraft, String name, String source, String destination, LocalDateTime departureTime, Duration duration, ArrayList<Seat> seats, int basePrice, boolean isAvailable) {
+    public Flight(Aircraft aircraft, String source, String destination, LocalDateTime departureTime, Duration duration, int basePrice) {
         this.aircraft = aircraft;
-        this.name = name;
         this.source = source;
         this.destination = destination;
         this.departureTime = departureTime;
         this.duration = duration;
-        this.seats = seats;
         this.basePrice = basePrice;
-        this.isAvailable = isAvailable;
+        this.seats = new ArrayList<Seat>();
+        createSeatsFromAircraft(aircraft);
     }
 
     public Flight() {
@@ -88,9 +88,6 @@ public class Flight {
         return this.aircraft;
     }
 
-    public String getName() {
-        return this.name;
-    }
 
     public String getSource() {
         return this.source;
@@ -108,7 +105,7 @@ public class Flight {
         return this.duration;
     }
 
-    public ArrayList<Seat> getSeats() {
+    public List<Seat> getSeats() {
         return this.seats;
     }
 
@@ -116,9 +113,6 @@ public class Flight {
         return this.basePrice;
     }
 
-    public boolean isIsAvailable() {
-        return this.isAvailable;
-    }
 
     public void setId(Long id) {
         this.id = id;
@@ -128,9 +122,6 @@ public class Flight {
         this.aircraft = aircraft;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public void setSource(String source) {
         this.source = source;
@@ -148,7 +139,7 @@ public class Flight {
         this.duration = duration;
     }
 
-    public void setSeats(ArrayList<Seat> seats) {
+    public void setSeats(List<Seat> seats) {
         this.seats = seats;
     }
 
@@ -156,9 +147,6 @@ public class Flight {
         this.basePrice = basePrice;
     }
 
-    public void setIsAvailable(boolean isAvailable) {
-        this.isAvailable = isAvailable;
-    }
 
     public Flight id(Long id) {
         this.id = id;
@@ -170,10 +158,6 @@ public class Flight {
         return this;
     }
 
-    public Flight name(String name) {
-        this.name = name;
-        return this;
-    }
 
     public Flight source(String source) {
         this.source = source;
@@ -205,24 +189,36 @@ public class Flight {
         return this;
     }
 
-    public Flight isAvailable(boolean isAvailable) {
-        this.isAvailable = isAvailable;
-        return this;
-    }
-
     @Override
     public String toString() {
         return "{" +
             " id='" + getId() + "'" +
             ", aircraft='" + getAircraft() + "'" +
-            ", name='" + getName() + "'" +
             ", source='" + getSource() + "'" +
             ", destination='" + getDestination() + "'" +
             ", departureTime='" + getDepartureTime() + "'" +
             ", duration='" + getDuration() + "'" +
             ", seats='" + getSeats() + "'" +
             ", basePrice='" + getBasePrice() + "'" +
-            ", isAvailable='" + isIsAvailable() + "'" +
             "}";
+    }
+
+    private void createSeatsFromAircraft(Aircraft aircraft) {
+        int numBusinessSeats = aircraft.getBusinessSeatCount();
+        int numComfortSeats = aircraft.getComfortSeatCount();
+        int numOrdinarySeats = aircraft.getOrdinarySeatCount();
+
+        for (int i = 0; i < numBusinessSeats; i++) {
+            Seat seat = new Seat(SeatType.BUSINESS_CLASS, String.format("B%d", i), false, this.basePrice, this);
+            this.seats.add(seat);
+        }
+        for (int i = 0; i < numComfortSeats; i++) {
+            Seat seat = new Seat(SeatType.COMFORT, String.format("C%d", i), false, this.basePrice, this);
+            this.seats.add(seat);
+        }
+        for (int i = 0; i < numOrdinarySeats; i++) {
+            Seat seat = new Seat(SeatType.ORDINARY, String.format("O%d", i), false, this.basePrice, this);
+            this.seats.add(seat);
+        }
     }
 }

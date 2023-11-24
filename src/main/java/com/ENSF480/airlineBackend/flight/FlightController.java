@@ -19,4 +19,9 @@ public class FlightController {
     public List<Flight> getFlights() {
         return flightService.getFlights();
     }
+
+    @PostMapping
+    public void createFlight(@RequestBody FlightDetails flight) {
+        flightService.createFlight(flight);
+    }
 }

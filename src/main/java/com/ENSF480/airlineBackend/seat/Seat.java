@@ -1,6 +1,7 @@
 package com.ENSF480.airlineBackend.seat;
 
 import com.ENSF480.airlineBackend.flight.Flight;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -27,12 +28,14 @@ public class Seat {
         generator = "seat_sequence"
     )
     Long id;
+    String seatNumber;
     SeatType seatType;
     boolean isReserved;
     double basePrice;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "flight_id")
+    @JsonBackReference
     private Flight flight;
 
     @Transient
@@ -41,15 +44,17 @@ public class Seat {
     public Seat() {
     }
 
-    public Seat(SeatType seatType, boolean isReserved, double basePrice, Flight flight) {
+    public Seat(SeatType seatType, String seatNumber, boolean isReserved, double basePrice, Flight flight) {
         this.seatType = seatType;
+        this.seatNumber = seatNumber;
         this.isReserved = isReserved;
         this.basePrice = basePrice;
         this.flight = flight;
     }
 
-    public Seat(Long id, SeatType seatType, boolean isReserved, double basePrice, Flight flight) {
+    public Seat(Long id, String seatNumber, SeatType seatType, boolean isReserved, double basePrice, Flight flight) {
         this.id = id;
+        this.seatNumber = seatNumber;
         this.seatType = seatType;
         this.isReserved = isReserved;
         this.basePrice = basePrice;
@@ -66,6 +71,10 @@ public class Seat {
 
     public Long getId() {
         return this.id;
+    }
+
+    public String getSeatNumber() {
+        return this.seatNumber;
     }
 
     public SeatType getSeatType() {
@@ -90,6 +99,10 @@ public class Seat {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setSeatNumber(String seatNumber) {
+        this.seatNumber = seatNumber;
     }
 
     public void setSeatType(SeatType seatType) {
@@ -123,6 +136,8 @@ public class Seat {
         setBasePrice(basePrice);
         return this;
     }
+
+
 
 
 

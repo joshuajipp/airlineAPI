@@ -4,10 +4,8 @@ import org.springframework.stereotype.Service;
 
 import com.ENSF480.airlineBackend.aircraft.Aircraft;
 import com.ENSF480.airlineBackend.aircraft.AircraftService;
-import com.ENSF480.airlineBackend.seat.Seat;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.time.Duration;
 
@@ -29,11 +27,21 @@ public class FlightService {
         return flightRepository.findAll();
     }
 
-    public Flight createFlight(Long aircraftId, String name, String source, String destination, LocalDateTime departureTime, Duration duration, ArrayList<Seat> seats, int basePrice, boolean isAvailable) {
+    public void createFlight(FlightDetails flightDetails) {
+        createFlight(flightDetails.getAircraftId(), flightDetails.getSource(),
+        flightDetails.getDestination(), flightDetails.getDepartureTime(),
+        flightDetails.getDuration(), flightDetails.getBasePrice());
+        
+        
+    }
+
+    public void createFlight(Long aircraftId, String source, String destination, LocalDateTime departureTime, Duration duration, int basePrice) {
         // Fetch the Aircraft by ID
         Aircraft aircraft = aircraftService.findById(aircraftId).orElseThrow(() -> new RuntimeException("Aircraft not found"));
         
-        // Create and return the new Flight
-        return new Flight(aircraft, name, source, destination, departureTime, duration, seats, basePrice, isAvailable);
+        // Create the new Flight
+        Flight flight = new Flight(aircraft, source, destination, departureTime, duration, basePrice);
+        flightRepository.save(flight);
+     
     }
 }
