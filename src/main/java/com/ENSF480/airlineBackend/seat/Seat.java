@@ -13,13 +13,13 @@ import jakarta.persistence.Transient;
 public class Seat {
    @Id
     @SequenceGenerator(
-        name = "student_sequence",
-        sequenceName = "student_sequence",
+        name = "seat_sequence",
+        sequenceName = "seat_sequence",
         allocationSize = 1
     )
     @GeneratedValue(
         strategy = GenerationType.SEQUENCE,
-        generator = "student_sequence"
+        generator = "seat_sequence"
     )
     Long id;
     SeatType seatType;
