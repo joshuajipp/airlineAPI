@@ -1,9 +1,14 @@
 package com.ENSF480.airlineBackend.seat;
 
+import com.ENSF480.airlineBackend.flight.Flight;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
@@ -25,6 +30,10 @@ public class Seat {
     SeatType seatType;
     boolean isReserved;
     double basePrice;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "flight_id")
+    private Flight flight;
 
     @Transient
     double calculatedPrice;
@@ -32,17 +41,19 @@ public class Seat {
     public Seat() {
     }
 
-    public Seat(SeatType seatType, boolean isReserved, double basePrice) {
+    public Seat(SeatType seatType, boolean isReserved, double basePrice, Flight flight) {
         this.seatType = seatType;
         this.isReserved = isReserved;
         this.basePrice = basePrice;
+        this.flight = flight;
     }
 
-    public Seat(Long id, SeatType seatType, boolean isReserved, double basePrice) {
+    public Seat(Long id, SeatType seatType, boolean isReserved, double basePrice, Flight flight) {
         this.id = id;
         this.seatType = seatType;
         this.isReserved = isReserved;
         this.basePrice = basePrice;
+        this.flight = flight;
     }
 
     public double getCalculatedPrice() {
@@ -67,6 +78,14 @@ public class Seat {
 
     public double getBasePrice() {
         return this.basePrice;
+    }
+
+    public Flight getFlight() {
+        return this.flight;
+    }
+
+    public void setFlight(Flight flight) {
+        this.flight = flight;
     }
 
     public void setId(Long id) {
@@ -104,6 +123,8 @@ public class Seat {
         setBasePrice(basePrice);
         return this;
     }
+
+
 
     @Override
     public String toString() {

@@ -5,13 +5,18 @@ import java.time.Duration;
 import java.util.ArrayList;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import com.ENSF480.airlineBackend.aircraft.Aircraft;
 import com.ENSF480.airlineBackend.seat.Seat;
+import jakarta.persistence.CascadeType;
 
 
 @Entity
@@ -28,12 +33,21 @@ public class Flight {
         generator = "flight_sequence"
     )
     private Long id;
-    private Aircraft aircraft; 
+    @ManyToOne
+    @JoinColumn(name = "aircraft_id", referencedColumnName = "id") // assuming 'id' is the primary key in Aircraft
+    private Aircraft aircraft;
     private String name;
     private String source;
     private String destination;
     private LocalDateTime departureTime;
     private Duration duration; 
+
+    @OneToMany(
+        mappedBy = "flight",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true,
+        fetch = FetchType.LAZY
+    )
     private ArrayList<Seat> seats; 
     private int basePrice;
     private boolean isAvailable;
