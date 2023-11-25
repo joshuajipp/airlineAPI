@@ -1,9 +1,15 @@
 package com.ENSF480.airlineBackend.seat;
 
+import com.ENSF480.airlineBackend.flight.Flight;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
@@ -13,18 +19,24 @@ import jakarta.persistence.Transient;
 public class Seat {
    @Id
     @SequenceGenerator(
-        name = "student_sequence",
-        sequenceName = "student_sequence",
+        name = "seat_sequence",
+        sequenceName = "seat_sequence",
         allocationSize = 1
     )
     @GeneratedValue(
         strategy = GenerationType.SEQUENCE,
-        generator = "student_sequence"
+        generator = "seat_sequence"
     )
     Long id;
+    String seatNumber;
     SeatType seatType;
     boolean isReserved;
     double basePrice;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "flight_id")
+    @JsonBackReference
+    private Flight flight;
 
     @Transient
     double calculatedPrice;
@@ -32,17 +44,21 @@ public class Seat {
     public Seat() {
     }
 
-    public Seat(SeatType seatType, boolean isReserved, double basePrice) {
+    public Seat(SeatType seatType, String seatNumber, boolean isReserved, double basePrice, Flight flight) {
         this.seatType = seatType;
+        this.seatNumber = seatNumber;
         this.isReserved = isReserved;
         this.basePrice = basePrice;
+        this.flight = flight;
     }
 
-    public Seat(Long id, SeatType seatType, boolean isReserved, double basePrice) {
+    public Seat(Long id, String seatNumber, SeatType seatType, boolean isReserved, double basePrice, Flight flight) {
         this.id = id;
+        this.seatNumber = seatNumber;
         this.seatType = seatType;
         this.isReserved = isReserved;
         this.basePrice = basePrice;
+        this.flight = flight;
     }
 
     public double getCalculatedPrice() {
@@ -57,6 +73,10 @@ public class Seat {
         return this.id;
     }
 
+    public String getSeatNumber() {
+        return this.seatNumber;
+    }
+
     public SeatType getSeatType() {
         return this.seatType;
     }
@@ -69,8 +89,20 @@ public class Seat {
         return this.basePrice;
     }
 
+    public Flight getFlight() {
+        return this.flight;
+    }
+
+    public void setFlight(Flight flight) {
+        this.flight = flight;
+    }
+
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setSeatNumber(String seatNumber) {
+        this.seatNumber = seatNumber;
     }
 
     public void setSeatType(SeatType seatType) {
@@ -104,6 +136,10 @@ public class Seat {
         setBasePrice(basePrice);
         return this;
     }
+
+
+
+
 
     @Override
     public String toString() {

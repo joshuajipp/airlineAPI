@@ -19,4 +19,14 @@ public class FlightController {
     public List<Flight> getFlights() {
         return flightService.getFlights();
     }
+
+    @GetMapping(path = "{flightId}")
+    public Flight getFlight(@PathVariable("flightId") Long flightId) {
+        return flightService.getFlight(flightId);
+    }
+
+    @PostMapping
+    public void createFlight(@RequestBody FlightDetails flight) {
+        flightService.createFlight(flight);
+    }
 }
