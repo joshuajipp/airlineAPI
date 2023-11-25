@@ -1,5 +1,8 @@
 package com.ENSF480.airlineBackend.ticket;
 
+import com.ENSF480.airlineBackend.flight.Flight;
+import com.ENSF480.airlineBackend.seat.Seat;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,7 +24,19 @@ public class Ticket {
         generator = "ticket_sequence"
     )
     private Long id;
+    private boolean hasCancelationInsurance;
+    private Flight bookedFlight;
+    private Seat bookedSeat;
     private String firstName;
     private String lastName;
+
+
+    @Override
+    public String toString(){
+        return  "{" +
+                "ticketId='" + id + "'" +
+                "hasCancelationInsurance='" + hasCancelationInsurance + "'" +
+                "bookedFlight";
+    }
     
 }

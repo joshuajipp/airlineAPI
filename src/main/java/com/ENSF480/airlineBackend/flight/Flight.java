@@ -34,6 +34,7 @@ public class Flight {
         generator = "flight_sequence"
     )
     private Long id;
+    private static Long counter;
     @ManyToOne
     @JoinColumn(name = "aircraft_id", referencedColumnName = "id")
     private Aircraft aircraft;
@@ -62,7 +63,7 @@ public class Flight {
         this.basePrice = basePrice;
         this.seats = new ArrayList<Seat>();
         createSeatsFromAircraft(aircraft);
-
+        counter++;
     }
 
     public Flight(Aircraft aircraft, String source, String destination, LocalDateTime departureTime, int durationInMinutes, int basePrice) {
@@ -74,6 +75,7 @@ public class Flight {
         this.basePrice = basePrice;
         this.seats = new ArrayList<Seat>();
         createSeatsFromAircraft(aircraft);
+        counter++;
     }
 
     public Flight() {
