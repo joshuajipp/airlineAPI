@@ -1,4 +1,4 @@
-package com.ENSF480.airlineBackend.user;
+package com.ENSF480.airlineBackend.reg_user;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

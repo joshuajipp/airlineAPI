@@ -1,8 +1,9 @@
-package com.ENSF480.airlineBackend.user;
+package com.ENSF480.airlineBackend.reg_user;
 
 import java.util.ArrayList;
 
 import com.ENSF480.airlineBackend.ticket.Ticket;
+import com.ENSF480.airlineBackend.user.User;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
