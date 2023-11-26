@@ -62,9 +62,8 @@ public class EmailService {
         message.setSubject("Your Ticket Cancellation Information");
         String emailText = "Dear " + ticket.getFirstName() + ",\n\n"
                 + "We are sorry to hear that you have cancelled your ticket.\n"
-                + "Here is your ticket cancellation information:\n"
                 + "A refund of $" + String.format("%.2f", ticket.getBookedSeat().getCalculatedPrice()) + " has been issued to your credit card.\n\n"
-                + "We hope to see you again.";
+                + "We hope to see you another time.\n\n";
         message.setText(emailText);
         return message;
     }
