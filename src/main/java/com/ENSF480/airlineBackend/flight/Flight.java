@@ -14,6 +14,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+
 import com.ENSF480.airlineBackend.aircraft.Aircraft;
 import com.ENSF480.airlineBackend.seat.Seat;
 import jakarta.persistence.CascadeType;
@@ -34,6 +36,7 @@ public class Flight {
         generator = "flight_sequence"
     )
     private Long id;
+    @Transient
     private static Long counter;
     @ManyToOne
     @JoinColumn(name = "aircraft_id", referencedColumnName = "id")
