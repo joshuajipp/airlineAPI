@@ -20,6 +20,12 @@ public class FlightController {
         return flightService.getFlights();
     }
 
+    @GetMapping(path = "flightPassengers/{flightId}")
+    public List<FlightPassengers> getFlightPassengers(@PathVariable("flightId") Long flightId) {
+        return flightService.getFlightPassengers(flightId);
+    }
+
+
     @GetMapping(path = "{flightId}")
     public Flight getFlight(@PathVariable("flightId") Long flightId) {
         return flightService.getFlight(flightId);

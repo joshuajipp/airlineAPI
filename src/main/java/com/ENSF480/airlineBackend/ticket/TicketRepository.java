@@ -12,4 +12,6 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
     @Query("SELECT t FROM Ticket t WHERE t.email = ?1")
     ArrayList<Ticket> findTicketByEmail(String email);
     
+    @Query("SELECT t FROM Ticket t WHERE t.bookedSeat.flight.id = ?1")
+    ArrayList<Ticket> findTicketByFlightId(Long flightId);
 }

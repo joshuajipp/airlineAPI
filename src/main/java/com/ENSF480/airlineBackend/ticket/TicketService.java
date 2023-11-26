@@ -53,4 +53,8 @@ public class TicketService {
             throw new IllegalStateException(String.format("exception: %s", e.getMessage()));
         }
     }
+
+    public ArrayList<Ticket> getTicketsByFlightId(Long flightId) {
+        return ticketRepository.findTicketByFlightId(flightId);
+    }
 }

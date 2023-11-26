@@ -4,8 +4,11 @@ import org.springframework.stereotype.Service;
 
 import com.ENSF480.airlineBackend.aircraft.Aircraft;
 import com.ENSF480.airlineBackend.aircraft.AircraftService;
+import com.ENSF480.airlineBackend.ticket.TicketService;
+import com.ENSF480.airlineBackend.ticket.Ticket;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -13,10 +16,12 @@ import java.util.List;
 public class FlightService {
     private final FlightRepository flightRepository;
     private final AircraftService aircraftService;
+    private final TicketService ticketService;
 
-    public FlightService(FlightRepository flightRepository, AircraftService aircraftService) {
+    public FlightService(FlightRepository flightRepository, AircraftService aircraftService, TicketService ticketService) {
         this.flightRepository = flightRepository;
         this.aircraftService = aircraftService;
+        this.ticketService = ticketService;
     }
 
 
@@ -46,5 +51,14 @@ public class FlightService {
         Flight flight = new Flight(aircraft, source, destination, departureTime, duration, basePrice);
         flightRepository.save(flight);
      
+    }
+
+    public List<FlightPassengers> getFlightPassengers(Long flightId) {
+        ArrayList<Ticket> tickets = ticketService.getTicketsByFlightId(flightId);
+        ArrayList<FlightPassengers> flightPassengers = new ArrayList<FlightPassengers>();
+        for (Ticket ticket : tickets) {
+            flightPassengers.add(new FlightPassengers(ticket.getFirstName(), ticket.getLastName(), ticket.getBookedSeat()));
+        }
+        return flightPassengers;
     }
 }
