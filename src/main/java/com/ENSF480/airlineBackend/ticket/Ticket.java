@@ -77,7 +77,7 @@ public class Ticket {
         this.bookedSeat = bookedSeat;
     }
 
-    public boolean isHasCancellationInsurance() {
+    public boolean getHasCancellationInsurance() {
         return hasCancellationInsurance;
     }
 

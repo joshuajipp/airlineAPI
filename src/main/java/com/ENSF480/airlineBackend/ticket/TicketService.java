@@ -1,6 +1,7 @@
 package com.ENSF480.airlineBackend.ticket;
 
 import org.springframework.stereotype.Service;
+import java.util.ArrayList;
 
 import com.ENSF480.airlineBackend.payment.PaymentEntry;
 import com.ENSF480.airlineBackend.seat.Seat;
@@ -28,9 +29,28 @@ public class TicketService {
         Ticket ticket = new Ticket(paymentEntry.getUser(), seat, paymentEntry.getHasCancellationInsurance());
         ticketRepository.save(ticket);
         try {
-            emailService.sendTicketEmail(ticket);
+            emailService.sendTicketEmail(ticket, false);
         } catch (Exception e) {
-            throw new IllegalStateException(String.format("exceptiom %s", e.getMessage()));
+            throw new IllegalStateException(String.format("exception: %s", e.getMessage()));
+        }
+    }
+
+    public ArrayList<Ticket> getTickets(String email) {
+        return ticketRepository.findTicketByEmail(email);
+    }
+
+    public void deleteTicket(Long ticketId) {
+        Ticket ticket = ticketRepository.findById(ticketId)
+                .orElseThrow(() -> new IllegalStateException("ticket with id " + ticketId + " does not exists"));
+        if (!(ticket.getHasCancellationInsurance())) {
+            throw new IllegalStateException("ticket with id " + ticketId + " does not have cancellation insurance");
+        }
+        seatService.updateSeatAvailability(ticket.getBookedSeat().getId(), false);
+        ticketRepository.deleteById(ticketId);
+        try {
+            emailService.sendTicketEmail(ticket, true);
+        } catch (Exception e) {
+            throw new IllegalStateException(String.format("exception: %s", e.getMessage()));
         }
     }
 }
