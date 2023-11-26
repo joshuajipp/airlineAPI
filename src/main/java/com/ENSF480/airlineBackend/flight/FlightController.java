@@ -35,4 +35,11 @@ public class FlightController {
     public void createFlight(@RequestBody FlightDetails flight) {
         flightService.createFlight(flight);
     }
+
+    @PostMapping(path = "list")
+    public void createFlights(@RequestBody List<FlightDetails> flights) {
+        for (FlightDetails flight : flights) {
+            flightService.createFlight(flight);
+        }
+    }
 }
