@@ -71,15 +71,13 @@ public class RegisteredUser extends User{
     }
 
     public RegisteredUser(){
-
+        super();
     }
 
     public RegisteredUser(Long id, String email, String password, String firstName, String lastName){
+        super(email, firstName, lastName);
         this.id = id;
-        this.setEmail(email);
-        this.setPassword(password);
-        this.setFirstName(firstName);
-        this.setLastName(lastName);
+        this.password = password;
         this.hasFreeCompanionTicket = true;
         this.tickets = new ArrayList<Ticket>();
     }

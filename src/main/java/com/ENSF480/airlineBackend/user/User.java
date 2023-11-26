@@ -22,4 +22,14 @@ public class User {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
+    public User(){
+        
+    }
+
+    public User(String email, String firstName, String lastName){
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 }
