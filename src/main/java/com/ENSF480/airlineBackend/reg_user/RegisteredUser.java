@@ -1,9 +1,11 @@
 package com.ENSF480.airlineBackend.reg_user;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.ENSF480.airlineBackend.ticket.Ticket;
 import com.ENSF480.airlineBackend.user.User;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -61,18 +63,26 @@ public class RegisteredUser extends User{
     public void setMonthlyPromotion(String monthlyPromotion) {
         this.monthlyPromotion = monthlyPromotion;
     }
-    private ArrayList<Ticket> tickets;
+    @JsonManagedReference
+    private List<Ticket> tickets;
     
-    public ArrayList<Ticket> getTickets() {
+    public List<Ticket> getTickets() {
         return tickets;
     }
 
-    public void setTickets(ArrayList<Ticket> tickets) {
+    public void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
     }
 
     public RegisteredUser(){
         super();
+    }
+
+    public RegisteredUser(String email, String firstName, String lastName, String password){
+        super(email, firstName, lastName);
+        this.password = password;
+        this.hasFreeCompanionTicket = true;
+        this.tickets = new ArrayList<Ticket>();
     }
 
     public RegisteredUser(Long id, String email, String password, String firstName, String lastName){

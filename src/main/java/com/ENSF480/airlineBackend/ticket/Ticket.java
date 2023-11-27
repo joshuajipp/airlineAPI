@@ -29,14 +29,5 @@ public class Ticket {
     private Seat bookedSeat;
     private String firstName;
     private String lastName;
-
-
-    @Override
-    public String toString(){
-        return  "{" +
-                "ticketId='" + id + "'" +
-                "hasCancelationInsurance='" + hasCancelationInsurance + "'" +
-                "bookedFlight";
-    }
     
 }
