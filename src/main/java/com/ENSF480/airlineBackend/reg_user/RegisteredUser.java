@@ -85,6 +85,11 @@ public class RegisteredUser extends User{
         this.tickets = new ArrayList<Ticket>();
     }
 
+    public RegisteredUser(String email, String password){
+        super(email);
+        this.password = password;
+    }
+
     public RegisteredUser(Long id, String email, String password, String firstName, String lastName){
         super(email, firstName, lastName);
         this.id = id;

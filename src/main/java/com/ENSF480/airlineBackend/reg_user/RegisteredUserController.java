@@ -5,8 +5,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ENSF480.airlineBackend.user.User;
-
 @RestController
 @RequestMapping(path="api/v1/reg_user")
 public class RegisteredUserController {
@@ -16,9 +14,9 @@ public class RegisteredUserController {
         this.registeredUserService = registeredUserService;
     }
 
-
     @PostMapping
-    public void createRegisteredUser(@RequestBody User user ){
-        registeredUserService.createRegisteredUser(user);
+    public RegisteredUser regUserSignIn(@RequestBody RegisteredUser regUser ){
+        RegisteredUser regUserInfo = registeredUserService.regUserSignIn(regUser);
+        return regUserInfo;
     }
 }

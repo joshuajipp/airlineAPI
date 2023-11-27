@@ -32,4 +32,7 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
     }
+    public User(String email) {
+        this.email = email;
+    }
 }
