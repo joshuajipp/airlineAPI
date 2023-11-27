@@ -1,11 +1,6 @@
 package com.ENSF480.airlineBackend.reg_user;
 
-import java.util.ArrayList;
-import java.util.List;
-
-// import com.ENSF480.airlineBackend.ticket.Ticket;
-import com.ENSF480.airlineBackend.user.User;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,11 +11,11 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table
-public class RegisteredUser{
+public class RegisteredUser {
     @Id
     @SequenceGenerator(
         name = "reg_user_sequence",
-        sequenceName = "registered_user_sequence",
+        sequenceName = "reg_user_sequence",
         allocationSize = 1
     )
     @GeneratedValue(
@@ -28,65 +23,38 @@ public class RegisteredUser{
         generator = "reg_user_sequence"
     )
     private Long id;
-    
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private String firstName;
+    private String lastName;
+    private String email;
     private String password;
-    
-    public String getPassword() {
-        return password;
+    private int hasFreeCompanionTicket;
+    private String monthlyPromotion;
+
+    public RegisteredUser(){
     }
 
-    public void setPassword(String password) {
+    public RegisteredUser(Long id, String firstName, String lastName, String email, String password){
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
         this.password = password;
     }
-    private boolean hasFreeCompanionTicket;
 
-    public boolean isHasFreeCompanionTicket() {
-        return hasFreeCompanionTicket;
-    }
-
-    public void setHasFreeCompanionTicket(boolean hasFreeCompanionTicket) {
-        this.hasFreeCompanionTicket = hasFreeCompanionTicket;
-    }
-    private String monthlyPromotion;
-    
-    public String getMonthlyPromotion() {
-        return monthlyPromotion;
-    }
-
-    public void setMonthlyPromotion(String monthlyPromotion) {
-        this.monthlyPromotion = monthlyPromotion;
-    }
-    // @JsonManagedReference
-    // private List<Ticket> tickets;
-    
-    // public List<Ticket> getTickets() {
-    //     return tickets;
-    // }
-
-    // public void setTickets(List<Ticket> tickets) {
-    //     this.tickets = tickets;
-    // }
-    
-    private String email;
-
-    
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
+    public RegisteredUser(String firstName, String lastName, String email, String password){
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
+        this.password = password;
+        this.hasFreeCompanionTicket = 1;
+        this.monthlyPromotion = (LocalDate.now()).toString();
     }
 
-    public String firstName;
+    public RegisteredUser(String email, String password){
+        this.email = email;
+        this.password = password;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -96,8 +64,6 @@ public class RegisteredUser{
         this.firstName = firstName;
     }
 
-    private String lastName;
-
     public String getLastName() {
         return lastName;
     }
@@ -106,33 +72,36 @@ public class RegisteredUser{
         this.lastName = lastName;
     }
 
-    public RegisteredUser(){
-        
+    public String getEmail() {
+        return email;
     }
 
-    public RegisteredUser(String email, String firstName, String lastName, String password){
+    public void setEmail(String email) {
         this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.password = password;
-        this.hasFreeCompanionTicket = true;
-        // this.tickets = new ArrayList<Ticket>();
     }
 
-    public RegisteredUser(String email, String password){
-        this.email = email;
-        this.password = password;
+    public String getPassword() {
+        return password;
     }
 
-    public RegisteredUser(Long id, String email, String password, String firstName, String lastName){
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.id = id;
+    public void setPassword(String password) {
         this.password = password;
-        this.hasFreeCompanionTicket = true;
-        // this.tickets = new ArrayList<Ticket>();
     }
     
+    public int isHasFreeCompanionTicket() {
+        return hasFreeCompanionTicket;
+    }
+
+    public void setHasFreeCompanionTicket(int hasFreeCompanionTicket) {
+        this.hasFreeCompanionTicket = hasFreeCompanionTicket;
+    }
+
+    public String getMonthlyPromotion() {
+        return monthlyPromotion;
+    }
+
+    public void setMonthlyPromotion(String monthlyPromotion) {
+        this.monthlyPromotion = monthlyPromotion;
+    }
 
 }

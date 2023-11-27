@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path="api/v1/reg_user")
+@RequestMapping(path = "api/v1/regUser")
 public class RegisteredUserController {
     private final RegisteredUserService registeredUserService;
 
@@ -15,8 +15,7 @@ public class RegisteredUserController {
     }
 
     @PostMapping
-    public RegisteredUser regUserSignIn(@RequestBody RegisteredUser regUser ){
-        RegisteredUser regUserInfo = registeredUserService.regUserSignIn(regUser);
-        return regUserInfo;
+    public void createRegisteredUser(@RequestBody RegisteredUser newUser){
+        registeredUserService.createRegisteredUser(newUser);
     }
 }

@@ -1,10 +1,10 @@
 package com.ENSF480.airlineBackend.reg_user;
 
 import java.util.Optional;
-
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import org.springframework.stereotype.Service;
-
-import com.ENSF480.airlineBackend.user.User;
 
 @Service
 public class RegisteredUserService {
@@ -14,33 +14,61 @@ public class RegisteredUserService {
         this.registeredUserRepository = registeredUserRepository;
     }
 
-    // public void createRegisteredUser(User regUser){
-    //     this.registeredUserRepository.save(regUser);
-    // }
-
-    public RegisteredUser regUserSignIn(RegisteredUser regUser){
-        Optional<RegisteredUser> registeredUserOptional = registeredUserRepository.searchByEmail(regUser.getEmail());
-
-        if (registeredUserOptional.isPresent()){
-            if (registeredUserOptional.get().getPassword().equals(regUser.getPassword())){
-                return registeredUserOptional.get();
-            }
-            else{
-                throw new IllegalAccessError("Incorrect password");
-            }
-            
+    public boolean isValidRegisteredUser(String email, String password){
+        if (registeredUserExists(email)){
+            String hashedPassword = sha256(password);
+            Optional<RegisteredUser> user = registeredUserRepository.findRegisteredUserByEmail(email);
+            return user.get().getPassword().equals(hashedPassword);
         }
-        else {
-            throw new IllegalStateException("User account does not exist. Sign up first");
+        return false;
+    }
+
+    public boolean registeredUserExists(String email){
+        Optional<RegisteredUser> user = registeredUserRepository.findRegisteredUserByEmail(email);
+
+        if (user.isPresent()){
+            return true;
+        }
+
+        else{
+            return false;
         }
     }
 
-    // public void existsAsRegistered(User user){
-    //     Optional<RegisteredUser> registeredUserOptional = registeredUserRepository.searchByEmail(user.getEmail());
+    public void createRegisteredUser(RegisteredUser newUser){
+        
+        if (!registeredUserExists(newUser.getEmail())){
+            String hashedPassword = sha256(newUser.getPassword());
+            newUser.setPassword(hashedPassword);
+            registeredUserRepository.save(newUser);
+    
+        }
+        else {
+            throw new RuntimeException("Registered user with that email already exists");
+        }
+    }
 
-    //     if (registeredUserOptional.isPresent()){
-    //         throw new IllegalStateException("Registered User with provided email already exists");
-    //     }
-    //     return;
-    // }
+    public static String toHexString(byte[] hash) {
+        StringBuilder hexString = new StringBuilder(2 * hash.length);
+        for (int i = 0; i < hash.length; i++) {
+            String hex = Integer.toHexString(0xff & hash[i]);
+            if (hex.length() == 1) {
+                hexString.append('0');
+            }
+            hexString.append(hex);
+        }
+        return hexString.toString();
+    }
+
+    private static String sha256(String data) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(data.getBytes("UTF-8"));
+            return toHexString(hash);
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    
 }
