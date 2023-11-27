@@ -1,5 +1,6 @@
 package com.ENSF480.airlineBackend.user;
 
+
 public class User {
     private String email;
     public String getEmail() {

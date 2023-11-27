@@ -3,7 +3,7 @@ package com.ENSF480.airlineBackend.reg_user;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ENSF480.airlineBackend.ticket.Ticket;
+// import com.ENSF480.airlineBackend.ticket.Ticket;
 import com.ENSF480.airlineBackend.user.User;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -16,7 +16,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table
-public class RegisteredUser extends User{
+public class RegisteredUser{
     @Id
     @SequenceGenerator(
         name = "reg_user_sequence",
@@ -63,39 +63,75 @@ public class RegisteredUser extends User{
     public void setMonthlyPromotion(String monthlyPromotion) {
         this.monthlyPromotion = monthlyPromotion;
     }
-    @JsonManagedReference
-    private List<Ticket> tickets;
+    // @JsonManagedReference
+    // private List<Ticket> tickets;
     
-    public List<Ticket> getTickets() {
-        return tickets;
+    // public List<Ticket> getTickets() {
+    //     return tickets;
+    // }
+
+    // public void setTickets(List<Ticket> tickets) {
+    //     this.tickets = tickets;
+    // }
+    
+    private String email;
+
+    
+
+    public String getEmail() {
+        return email;
     }
 
-    public void setTickets(List<Ticket> tickets) {
-        this.tickets = tickets;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String firstName;
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    private String lastName;
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public RegisteredUser(){
-        super();
+        
     }
 
     public RegisteredUser(String email, String firstName, String lastName, String password){
-        super(email, firstName, lastName);
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.password = password;
         this.hasFreeCompanionTicket = true;
-        this.tickets = new ArrayList<Ticket>();
+        // this.tickets = new ArrayList<Ticket>();
     }
 
     public RegisteredUser(String email, String password){
-        super(email);
+        this.email = email;
         this.password = password;
     }
 
     public RegisteredUser(Long id, String email, String password, String firstName, String lastName){
-        super(email, firstName, lastName);
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.id = id;
         this.password = password;
         this.hasFreeCompanionTicket = true;
-        this.tickets = new ArrayList<Ticket>();
+        // this.tickets = new ArrayList<Ticket>();
     }
     
 

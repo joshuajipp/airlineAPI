@@ -14,12 +14,12 @@ public class UserService {
         this.registeredUserService = registeredUserService;
     }
 
-    public void GuestSignIn(User user){
-        registeredUserService.existsAsRegistered(user);
-    }
+    // public void GuestSignIn(User user){
+    //     registeredUserService.existsAsRegistered(user);
+    // }
 
-    public void GuestSignUp(RegisteredUser regUser){
-        registeredUserService.existsAsRegistered(regUser);
-        registeredUserService.createRegisteredUser(regUser);
-    }
+    // public void GuestSignUp(RegisteredUser regUser){
+    //     registeredUserService.existsAsRegistered(regUser);
+    //     registeredUserService.createRegisteredUser(regUser);
+    // }
 }

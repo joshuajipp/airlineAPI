@@ -17,7 +17,7 @@ import jakarta.persistence.Transient;
 @Entity
 @Table
 public class Seat {
-   @Id
+    @Id
     @SequenceGenerator(
         name = "seat_sequence",
         sequenceName = "seat_sequence",
@@ -81,7 +81,7 @@ public class Seat {
         return this.seatType;
     }
 
-    public boolean isIsReserved() {
+    public boolean isReserved() {
         return this.isReserved;
     }
 
@@ -146,7 +146,7 @@ public class Seat {
         return "{" +
             " id='" + getId() + "'" +
             ", seatType='" + getSeatType() + "'" +
-            ", isReserved='" + isIsReserved() + "'" +
+            ", isReserved='" + isReserved() + "'" +
             ", basePrice='" + getBasePrice() + "'" +
             "}";
     }

@@ -14,9 +14,9 @@ public class RegisteredUserService {
         this.registeredUserRepository = registeredUserRepository;
     }
 
-    public void createRegisteredUser(User regUser){
-        this.registeredUserRepository.save(regUser);
-    }
+    // public void createRegisteredUser(User regUser){
+    //     this.registeredUserRepository.save(regUser);
+    // }
 
     public RegisteredUser regUserSignIn(RegisteredUser regUser){
         Optional<RegisteredUser> registeredUserOptional = registeredUserRepository.searchByEmail(regUser.getEmail());
@@ -35,12 +35,12 @@ public class RegisteredUserService {
         }
     }
 
-    public void existsAsRegistered(User user){
-        Optional<RegisteredUser> registeredUserOptional = registeredUserRepository.searchByEmail(user.getEmail());
+    // public void existsAsRegistered(User user){
+    //     Optional<RegisteredUser> registeredUserOptional = registeredUserRepository.searchByEmail(user.getEmail());
 
-        if (registeredUserOptional.isPresent()){
-            throw new IllegalStateException("Registered User with provided email already exists");
-        }
-        return;
-    }
+    //     if (registeredUserOptional.isPresent()){
+    //         throw new IllegalStateException("Registered User with provided email already exists");
+    //     }
+    //     return;
+    // }
 }

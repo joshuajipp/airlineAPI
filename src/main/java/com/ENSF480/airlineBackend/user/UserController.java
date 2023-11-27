@@ -17,14 +17,14 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping
-    public User GuestSignIn(@RequestBody User user){
-        userService.GuestSignIn(user);
-        return user;
-    }
+    // @GetMapping
+    // public User GuestSignIn(@RequestBody User user){
+    //     userService.GuestSignIn(user);
+    //     return user;
+    // }
 
-    @PostMapping
-    public void GuestSignUp(@RequestBody RegisteredUser regUser){
-        userService.GuestSignUp(regUser);
-    }
+    // @PostMapping
+    // public void GuestSignUp(@RequestBody RegisteredUser regUser){
+    //     userService.GuestSignUp(regUser);
+    // }
 }
