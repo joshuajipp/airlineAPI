@@ -14,13 +14,20 @@ public class RegisteredUserService {
         this.registeredUserRepository = registeredUserRepository;
     }
 
-    public boolean isValidRegisteredUser(String email, String password){
+    public RegisteredUser isValidRegisteredUser(String email, String password){
         if (registeredUserExists(email)){
             String hashedPassword = sha256(password);
             Optional<RegisteredUser> user = registeredUserRepository.findRegisteredUserByEmail(email);
-            return user.get().getPassword().equals(hashedPassword);
+            if (user.get().getPassword().equals(hashedPassword)){
+                return user.get();
+            }
+            else{
+                throw new RuntimeException("Incorrect Password");
+            }
         }
-        return false;
+        else{
+            throw new RuntimeException("Registered User does not exist");
+        }
     }
 
     public boolean registeredUserExists(String email){
