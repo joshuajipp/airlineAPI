@@ -21,9 +21,13 @@ public class AgentService {
     }
 
     public boolean isValidAgent(String email, String password) {
-        Agent agent = agentRepository.findAgentByEmail(email).orElseThrow(() -> new RuntimeException("Agent not found"));
+        Optional<Agent> agent = agentRepository.findAgentByEmail(email);
+        if (!agent.isPresent()){
+            return false;
+        }
+        Agent agentDetails = agent.get();
         String hashedPassword = sha256(password);
-        return agent.getPassword().equals(hashedPassword);
+        return agentDetails.getPassword().equals(hashedPassword);
     }
 
     public Agent searchAgent(String email){
