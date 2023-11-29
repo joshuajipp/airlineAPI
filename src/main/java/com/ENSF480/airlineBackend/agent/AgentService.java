@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Optional;
 
 @Service
 public class AgentService {
@@ -14,13 +15,25 @@ public class AgentService {
         this.agentRepository = agentRepository;
     }
 
+    public boolean isAgent(String email) {
+        Optional<Agent> agent = agentRepository.findAgentByEmail(email);
+        return agent.isPresent();
+    }
+
     public boolean isValidAgent(String email, String password) {
         Agent agent = agentRepository.findAgentByEmail(email).orElseThrow(() -> new RuntimeException("Agent not found"));
         String hashedPassword = sha256(password);
         return agent.getPassword().equals(hashedPassword);
     }
 
+    public Agent searchAgent(String email){
+        return agentRepository.findAgentByEmail(email).get();
+    }
+
     public void createAgent(Agent agentDetails){
+        if (isAgent(agentDetails.getEmail())){
+            throw new RuntimeException("Agent already exists");
+        }
         String hashedPassword = sha256(agentDetails.getPassword());
         Agent agent = new Agent(agentDetails.getName(), agentDetails.getEmail(), hashedPassword);
         agentRepository.save(agent);
