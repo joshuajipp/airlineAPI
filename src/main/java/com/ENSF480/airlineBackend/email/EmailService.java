@@ -46,8 +46,8 @@ public class EmailService {
     }
 
     public void sendPromotionEmail(RegisteredUser user) throws MessagingException {
-        String senderEmail = "angelo.troncone@ucalgary.ca";
-        String password = "Jetvac4000!";
+        String senderEmail = System.getenv("EMAIL_SENDER");
+        String password = System.getenv("PASSWORD_SENDER");
 
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", "true");
