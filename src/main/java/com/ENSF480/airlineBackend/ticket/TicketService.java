@@ -42,9 +42,7 @@ public class TicketService {
     public void deleteTicket(Long ticketId) {
         Ticket ticket = ticketRepository.findById(ticketId)
                 .orElseThrow(() -> new IllegalStateException("ticket with id " + ticketId + " does not exists"));
-        if (!(ticket.getHasCancellationInsurance())) {
-            throw new IllegalStateException("ticket with id " + ticketId + " does not have cancellation insurance");
-        }
+
         seatService.updateSeatAvailability(ticket.getBookedSeat().getId(), false);
         ticketRepository.deleteById(ticketId);
         try {
