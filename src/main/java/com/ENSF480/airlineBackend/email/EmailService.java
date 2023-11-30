@@ -25,6 +25,11 @@ public class EmailService {
             }
         });
         if (isCancellation) {
+            if (!ticket.getHasCancellationInsurance()) {
+                Message message = prepareCancellationMessageWithoutInsurance(session, senderEmail, ticket);
+                Transport.send(message);
+                return;
+            }
             Message message = prepareCancellationMessage(session, senderEmail, ticket);
             Transport.send(message);
             return;
@@ -67,4 +72,19 @@ public class EmailService {
         message.setText(emailText);
         return message;
     }
+
+    private Message prepareCancellationMessageWithoutInsurance(Session session, String senderEmail, Ticket ticket) throws MessagingException{
+        Message message = new MimeMessage(session);
+        message.setFrom(new InternetAddress(senderEmail));
+        message.setRecipient(Message.RecipientType.TO, new InternetAddress(ticket.getEmail()));
+        message.setSubject("Your Ticket Cancellation Information");
+        String emailText = "Dear " + ticket.getFirstName() + ",\n\n"
+                + "We are sorry to hear that you have cancelled your ticket.\n"
+                + "Since you did not purchase cancellation insurance, you will be refunded %50 of the ticket price.\n"
+                + "A refund of $" + String.format("%.2f", ticket.getBookedSeat().getCalculatedPrice() * 0.5) + " has been issued to your credit card.\n\n"
+                + "We hope to see you another time.\n\n";
+        message.setText(emailText);
+        return message;
+    }
+
 }
