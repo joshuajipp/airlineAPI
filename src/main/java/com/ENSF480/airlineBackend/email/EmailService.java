@@ -3,7 +3,13 @@ package com.ENSF480.airlineBackend.email;
 import javax.mail.*;
 import javax.mail.internet.*;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.format.TextStyle;
+import java.util.Locale;
 import java.util.Properties;
+
+import com.ENSF480.airlineBackend.reg_user.RegisteredUser;
 import com.ENSF480.airlineBackend.ticket.Ticket;
 
 @Service
@@ -37,6 +43,43 @@ public class EmailService {
         Message message = prepareMessage(session, senderEmail, ticket);
 
         Transport.send(message);
+    }
+
+    public void sendPromotionEmail(RegisteredUser user) throws MessagingException {
+        String senderEmail = "angelo.troncone@ucalgary.ca";
+        String password = "Jetvac4000!";
+
+        Properties properties = new Properties();
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.host", "smtp-mail.outlook.com"); // Updated SMTP host for Outlook
+        properties.put("mail.smtp.port", "587"); // Port 587 is typically used for TLS
+
+        Session session = Session.getInstance(properties, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(senderEmail, password);
+            }
+        });
+        
+        Message message = preparePromotionMessage(session, senderEmail, user);
+
+        Transport.send(message);
+    }
+
+    private Message preparePromotionMessage(Session session, String senderEmail, RegisteredUser user) throws MessagingException{
+        Message message = new MimeMessage(session);
+        message.setFrom(new InternetAddress(senderEmail));
+        message.setRecipient(Message.RecipientType.TO, new InternetAddress(user.getEmail()));
+        message.setSubject("Your Ticket Information");
+
+        String emailText = "Hello, " + user.getFirstName() + "\n\n"
+            + "Here is your promotion for " + LocalDate.now().getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH) + ", " + Integer.toString(LocalDate.now().getYear()) + "\n\n"
+            + "This code gets you a free small Tim Horton's coffe in participating airports" + "\n"
+            + "Note: This code is used once per person" + "\n"
+            + "TIMS23";
+        message.setText(emailText);
+        return message;
+        
     }
 
     private Message prepareMessage(Session session, String senderEmail, Ticket ticket) throws MessagingException {

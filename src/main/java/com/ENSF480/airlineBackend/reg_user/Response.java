@@ -1,8 +1,5 @@
 package com.ENSF480.airlineBackend.reg_user;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-
 public class Response{
     private String type;
     private Object object;
