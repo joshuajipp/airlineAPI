@@ -28,7 +28,7 @@ public class PromotionService {
      *   month
      *   days of the week
      */
-    @Scheduled(cron = "0 55 * * * ?")
+    @Scheduled(cron = "0 0 0 1 * ?")
     public void MonthlyPromotion() throws MessagingException {
         List<RegisteredUser> users = registeredUserRepository.findAll();
         for (RegisteredUser i : users) {
