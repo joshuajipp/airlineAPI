@@ -2,10 +2,22 @@ package com.ENSF480.airlineBackend.payment;
 
 import java.time.YearMonth;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table
 public class CreditCard {
+    @Id
     private String cardNumber;
     private YearMonth expiryDate;
     private String cvv;
+    private double balance = 500.0;
+
+    public CreditCard(){
+
+    }
 
     public CreditCard(String cardNumber, String expiryDate, String cvv) {
         this.cardNumber = cardNumber;
@@ -25,6 +37,10 @@ public class CreditCard {
         return cvv;
     }
 
+    public double getBalance(){
+        return balance;
+    }
+
     public void setCardNumber(String cardNumber) {
         this.cardNumber = cardNumber;
     }
@@ -35,6 +51,10 @@ public class CreditCard {
 
     public void setCvv(String cvv) {
         this.cvv = cvv;
+    }
+
+    public void setBalance(double balance){
+        this.balance = balance;
     }
 
     // check if card num is 16 integer digits, expiry date is in the future, and cvv is 3 integer digits

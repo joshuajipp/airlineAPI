@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 
 import java.util.ArrayList;
 
+import javax.mail.MessagingException;
+
 @RestController
 @RequestMapping(path = "api/v1/ticket")
 public class TicketController {
@@ -21,7 +23,7 @@ public class TicketController {
     }
 
     @PostMapping
-    public void processTicketPayment(@RequestBody PaymentEntry paymentEntry) {
+    public void processTicketPayment(@RequestBody PaymentEntry paymentEntry) throws MessagingException {
         ticketService.processTicketPayment(paymentEntry);
     }
 
