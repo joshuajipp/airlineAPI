@@ -28,8 +28,8 @@ public class RegisteredUser {
     private String lastName;
     private String email;
     private String password;
-    private int hasFreeCompanionTicket;
-    private String monthlyPromotion;
+    private int hasFreeCompanionTicket = 1;
+    private String monthlyPromotion = (LocalDate.now()).toString();
 
     public RegisteredUser(){
     }
@@ -47,8 +47,6 @@ public class RegisteredUser {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.hasFreeCompanionTicket = 1;
-        this.monthlyPromotion = (LocalDate.now()).toString();
     }
 
     public RegisteredUser(String email, String password){
