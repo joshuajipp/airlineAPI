@@ -42,4 +42,9 @@ public class FlightController {
             flightService.createFlight(flight);
         }
     }
+
+    @DeleteMapping(path = "{flightId}")
+    public void deleteFlight(@PathVariable("flightId") Long flightId) {
+        flightService.deleteFlight(flightId);
+    }
 }

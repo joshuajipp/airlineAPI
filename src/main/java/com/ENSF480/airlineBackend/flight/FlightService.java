@@ -61,4 +61,8 @@ public class FlightService {
         }
         return flightPassengers;
     }
+
+    public void deleteFlight(Long flightId) {
+        flightRepository.deleteById(flightId);
+    }
 }
