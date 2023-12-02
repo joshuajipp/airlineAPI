@@ -15,6 +15,15 @@ public class AdminService {
         this.adminRepository = adminRepository;
     }
 
+    public boolean isAdmin(String email){
+        Optional<Admin> staff = adminRepository.findAdminByEmail(email);
+        return staff.isPresent();
+    }
+
+    public Admin searchAdmin(String email){
+        return adminRepository.findAdminByEmail(email).get();
+    }
+
     public boolean isValidAdmin(String email, String password) {
         Optional<Admin> admin = adminRepository.findAdminByEmail(email);
         if (!admin.isPresent()){
