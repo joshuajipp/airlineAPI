@@ -7,6 +7,7 @@ import com.ENSF480.airlineBackend.aircraft.AircraftService;
 import com.ENSF480.airlineBackend.ticket.TicketService;
 import com.ENSF480.airlineBackend.ticket.Ticket;
 
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,9 @@ public class FlightService {
 
     // CRUD operations (create, read, update, delete)
     public List<Flight> getFlights() {
-        return flightRepository.findAll();
+        // return all flights where the departure time is after the current time
+        LocalDateTime now = LocalDateTime.now();
+        return flightRepository.findNonExpiredFlights(now);
     }
 
     public Flight getFlight(Long flightId) {
